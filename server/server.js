@@ -1,7 +1,7 @@
 var express = require('express'),
 app = express(),
 bodyParser = require('body-parser'),
-questions = require('./questions.js');
+questions = require('./endpoints.js');
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
