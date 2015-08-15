@@ -9,6 +9,9 @@
   "author": "Jon Ringvald",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "mongodb": "^2.0.41",
     "themoviedb-javascript-library": "^1.0.0",
     "underscore": "^1.8.3"
   }

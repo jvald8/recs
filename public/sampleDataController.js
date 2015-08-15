@@ -6,6 +6,18 @@ angular.module('netflix', [])
   $scope.allMovies = [{'title':'Back to the Future 2', 'actors':['Michael J. Fox', 'Christopher Lloyd'], 'producers':['John Smith','Michael Smith'],'rating':null, 'points':0},
 {'title':'Inception', 'actors':['Leonardo DiCaprio', 'Joseph Gorden Leavitt'], 'producers':['Joe Johnson','Paul Paulson'],'rating':null, 'points':0}];
 
+  $scope.genres;
+
+  $scope.getListOfGenres = theMovieDb.genres.getList({},
+    function(data){
+      $scope.genres = JSON.parse(data).genres;
+      console.log(data)
+      console.log('success')},
+    function(error){
+      console.log(error)
+      console.log('error')}
+  );
+
   $scope.pickMovieBasedOnActors = function(array, arrayToChooseFrom) {
     for(var i = 0; i < array.length; i++) {
       for(var j = 0; j < arrayToChooseFrom.length; j++) {

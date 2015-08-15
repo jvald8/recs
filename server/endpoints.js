@@ -17,7 +17,7 @@ db.open(function(err, db) {
 });
 
 var populateDb = function() {
-  var questions = [
+  var movies = [
     {
         id:1,
         title:'mock movie data?',
