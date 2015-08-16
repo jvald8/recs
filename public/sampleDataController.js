@@ -7,6 +7,7 @@ angular.module('netflix', [])
 {'title':'Inception', 'actors':['Leonardo DiCaprio', 'Joseph Gorden Leavitt'], 'producers':['Joe Johnson','Paul Paulson'],'rating':null, 'points':0}];
 
   $scope.genres;
+  $scope.genrePickerVisibility = true;
 
   $scope.getListOfGenres = theMovieDb.genres.getList({},
     function(data){
@@ -17,6 +18,19 @@ angular.module('netflix', [])
       console.log(error)
       console.log('error')}
   );
+
+  $scope.pickGenre = function(genre) {
+    theMovieDb.genres.getMovies({'id':genre.id},
+    function(data){
+      $scope.genreMovies = JSON.parse(data);
+      console.log(data)
+      console.log('success')
+      $scope.genrePickerVisibility = false;
+      $scope.$apply()},
+    function(error){
+      console.log(error)
+      console.log('error')}
+  )};
 
   $scope.pickMovieBasedOnActors = function(array, arrayToChooseFrom) {
     for(var i = 0; i < array.length; i++) {

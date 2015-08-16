@@ -11,8 +11,11 @@
 </head>
 <body ng-controller='SampleDataController'>
 
-  <button ng-click='getListOfGenres()'>Pick a genre</button>
-  <li ng-repeat="genre in genres">{{genre.name}}</li>
+  <div ng-show="genrePickerVisibility">
+    <button ng-click="getListOfGenres()">Pick a genre</button>
+    <li ng-repeat="genre in genres" ng-click="pickGenre(genre)">{{genre.name}}</li>
+  </div>
+
   <br>
 
   <div class="row">
