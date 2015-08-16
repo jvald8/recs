@@ -19,19 +19,28 @@ angular.module('netflix', [])
       console.log('error')}
   );
 
+
+  $scope.movies;
+  $scope.movieListingVisibility = false;
   $scope.pickGenre = function(genre) {
     theMovieDb.genres.getMovies({'id':genre.id},
     function(data){
-      $scope.genreMovies = JSON.parse(data);
+      $scope.movies = JSON.parse(data).results;
       console.log(data)
       console.log('success')
-      $scope.genrePickerVisibility = false;
+      $scope.toggleViews();
       $scope.$apply()},
     function(error){
       console.log(error)
       console.log('error')}
   )};
 
+  $scope.toggleViews = function() {
+    $scope.genrePickerVisibility = !$scope.genrePickerVisibility;
+    $scope.movieListingVisibility = !$scope.movieListingVisibility;
+  }
+
+  // recommendation methods
   $scope.pickMovieBasedOnActors = function(array, arrayToChooseFrom) {
     for(var i = 0; i < array.length; i++) {
       for(var j = 0; j < arrayToChooseFrom.length; j++) {
@@ -50,8 +59,6 @@ angular.module('netflix', [])
     })
 
   }
-  //invoking method
-  //$scope.pickMovieBasedOnActors(ratedMovies, allMovies);
 
 })
 

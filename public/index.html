@@ -10,14 +10,44 @@
   <script src='./sampleDataController.js'></script>
 </head>
 <body ng-controller='SampleDataController'>
+  <div class="pull-right"><input type="text" class="form-control input-sm" ng-model="query" placeholder='Filter by name'></div>
 
+  <!-- genre picker -->
   <div ng-show="genrePickerVisibility">
     <button ng-click="getListOfGenres()">Pick a genre</button>
-    <li ng-repeat="genre in genres" ng-click="pickGenre(genre)">{{genre.name}}</li>
+    <li ng-repeat="genre in genres | filter:query" ng-click="pickGenre(genre)">{{genre.name}}</li>
+  </div>
+
+  <!-- movies listing-->
+  <div class="text-center" class="row" ng-show="movieListingVisibility"><strong>Movies</strong>
+
+    <button ng-click="toggleViews()">Back to genres</button>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">Title</th>
+          <th>Overview</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat='movie in movies | filter:query'>
+          <td class="text-center">{{movie.original_title}}</td>
+          <td>{{movie.overview}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!--<div class="row" ng-show="movieListingVisibility"><strong>Movies</strong>
+    <button ng-click="toggleViews()">Back to genres</button>
+    <li class="col-lg-12" ng-repeat="movie in movies">{{movie.original_title}}</li>-->
   </div>
 
   <br>
 
+  <span>Old stuff below ------------------------------------------------------------</span>
   <div class="row">
 <!-- Movie listing -->
     <div class="col-lg-12">
