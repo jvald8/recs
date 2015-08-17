@@ -1,63 +1,59 @@
 angular.module('netflix', [])
 .controller('SampleDataController', function($scope) {
-  $scope.ratedMovies = [{'title':'Back to the Future', 'actors':['Michael J. Fox', 'Christopher Lloyd'], 'producers':['John Smith','Michael Smith'],'rating':5, 'points':null},
-{'title':'Gangs of New York', 'actors':['Leonardo DiCaprio', 'Daniel Day Lewis'], 'producers':['Jack Jones','Frank Mitchell'],'rating':4, 'points':null}];
-
-  $scope.allMovies = [{'title':'Back to the Future 2', 'actors':['Michael J. Fox', 'Christopher Lloyd'], 'producers':['John Smith','Michael Smith'],'rating':null, 'points':0},
-{'title':'Inception', 'actors':['Leonardo DiCaprio', 'Joseph Gorden Leavitt'], 'producers':['Joe Johnson','Paul Paulson'],'rating':null, 'points':0}];
-
+  // genre view
   $scope.genres;
   $scope.genrePickerVisibility = true;
-
   $scope.getListOfGenres = theMovieDb.genres.getList({},
     function(data){
       $scope.genres = JSON.parse(data).genres;
-      console.log(data)
-      console.log('success')},
+      console.log(data)},
     function(error){
-      console.log(error)
-      console.log('error')}
+      console.log(error)}
   );
 
-
+  // movies view
   $scope.movies;
   $scope.movieListingVisibility = false;
   $scope.pickGenre = function(genre) {
     theMovieDb.genres.getMovies({'id':genre.id},
     function(data){
       $scope.movies = JSON.parse(data).results;
-      console.log(data)
-      console.log('success')
-      $scope.toggleViews();
+      $scope.toggleGenres();
+      $scope.toggleMovies();
       $scope.$apply()},
     function(error){
       console.log(error)
-      console.log('error')}
-  )};
+    })
+  };
 
-  $scope.toggleViews = function() {
+  $scope.imageUri = theMovieDb.common.images_uri;
+  $scope.singleMovie;
+  $scope.singleMovieVisibility = false;
+  $scope.pickMovie = function(movie) {
+    // just images
+    theMovieDb.movies.getImages({'id':movie.id},
+    function(data){
+      console.log(data)
+      $scope.singleMovie = JSON.parse(data).backdrops;
+      $scope.toggleMovies();
+      $scope.toggleSingleMovie();
+      $scope.$apply()},
+    function(error){
+      console.log(error)
+    })
+    // other calls for movie info
+  };
+
+  $scope.toggleGenres = function() {
     $scope.genrePickerVisibility = !$scope.genrePickerVisibility;
+  }
+
+  $scope.toggleMovies = function() {
     $scope.movieListingVisibility = !$scope.movieListingVisibility;
   }
 
-  // recommendation methods
-  $scope.pickMovieBasedOnActors = function(array, arrayToChooseFrom) {
-    for(var i = 0; i < array.length; i++) {
-      for(var j = 0; j < arrayToChooseFrom.length; j++) {
-        array[i].actors.forEach(function(x) {
-          if(_.contains(arrayToChooseFrom[j].actors, x)) {
-            arrayToChooseFrom[j].points++;
-          }
-        })
-      }
-    }
-
-    $scope.allMovies = arrayToChooseFrom;
-
-    arrayToChooseFrom.forEach(function(x) {
-      console.log('Title: ' + x.title + ', Points: ' + x.points);
-    })
-
+  $scope.toggleSingleMovie = function() {
+    $scope.singleMovieVisibility = !$scope.singleMovieVisibility;
   }
 
 })

@@ -10,28 +10,29 @@
   <script src='./sampleDataController.js'></script>
 </head>
 <body ng-controller='SampleDataController'>
-  <div class="pull-right"><input type="text" class="form-control input-sm" ng-model="query" placeholder='Filter by name'></div>
+  <!-- filter widget -->
+  <div class="pull-right"><input type="text" class="form-control input-sm" ng-model="query" placeholder='Filter'></div>
 
   <!-- genre picker -->
-  <div ng-show="genrePickerVisibility">
-    <button ng-click="getListOfGenres()">Pick a genre</button>
-    <li ng-repeat="genre in genres | filter:query" ng-click="pickGenre(genre)">{{genre.name}}</li>
+  <div class="text-center" ng-show="genrePickerVisibility">
+    <button class="btn btn-success" ng-click="getListOfGenres()">Pick a genre</button>
+    <ul ng-repeat="genre in genres | filter:query" ng-click="pickGenre(genre)"><button class="btn btn-primary">{{genre.name}}</button></ul>
   </div>
 
   <!-- movies listing-->
   <div class="text-center" class="row" ng-show="movieListingVisibility"><strong>Movies</strong>
 
-    <button ng-click="toggleViews()">Back to genres</button>
+    <button class="btn btn-success" ng-click="toggleGenres();toggleMovies()">Back to genres</button>
 
     <table class="table">
       <thead>
         <tr>
           <th class="text-center">Title</th>
-          <th>Overview</th>
+          <th class="text-center">Overview</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat='movie in movies | filter:query'>
+        <tr ng-repeat='movie in movies | filter:query' ng-click="pickMovie(movie)">
           <td class="text-center">{{movie.original_title}}</td>
           <td>{{movie.overview}}</td>
         </tr>
@@ -40,78 +41,27 @@
 
   </div>
 
-  <!--<div class="row" ng-show="movieListingVisibility"><strong>Movies</strong>
-    <button ng-click="toggleViews()">Back to genres</button>
-    <li class="col-lg-12" ng-repeat="movie in movies">{{movie.original_title}}</li>-->
+    <!-- single movie listing-->
+  <div class="text-center" class="row" ng-show="singleMovieVisibility">
+
+    <button class="btn btn-success" ng-click="toggleMovies();toggleSingleMovie()">Back to movies</button>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">Image</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center"><img src="http://image.tmdb.org/t/p{{singleMovie[0].file_path}}"></td>
+        </tr>
+      </tbody>
+    </table>
+
   </div>
 
   <br>
-
-  <span>Old stuff below ------------------------------------------------------------</span>
-  <div class="row">
-<!-- Movie listing -->
-    <div class="col-lg-12">
-      <div class="widget">
-        <div class="pull-right"><input type="text" class="form-control input-sm" ng-model="query" placeholder='Filter by name'></div>
-        <div class="widget-header"><em>Rated Movies</em>
-
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="text-center">Title</th>
-                <th>Actors</th>
-                <th>Producers</th>
-                <th>Rating</th>
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat='ratedMovie in ratedMovies | filter:query'>
-                <td class="text-center">{{ratedMovie.title}}</td>
-                <td>{{ratedMovie.actors}}</td>
-                <td>{{ratedMovie.producers}}</td>
-                <td>{{ratedMovie.rating}}</td>
-                <td>{{ratedMovie.points}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <br>
-
-        <div class="widget-header"><em>All Movies</em>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="text-center">Title</th>
-                <th>Actors</th>
-                <th>Producers</th>
-                <th>Rating</th>
-                <th>Points based on Actors</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat='movie in allMovies | filter:query'>
-                <td class="text-center">{{movie.title}}</td>
-                <td>{{movie.actors}}</td>
-                <td>{{movie.producers}}</td>
-                <td>{{movie.rating}}</td>
-                <td>{{movie.points}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <button ng-click='pickMovieBasedOnActors(ratedMovies, allMovies)'>Pick Movies based on Actors</button>
-
-      </div>
-    </div><!-- End Widgets -->
-
-    </div><!-- End Row -->
 
 
 </body>
