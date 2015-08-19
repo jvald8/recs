@@ -1,0 +1,20 @@
+<div class="text-center" class="row" ng-show="singleMovieVisibility">
+
+  <button class="btn btn-success" ng-click="toggleMovies();toggleSingleMovie()">Back to movies</button>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-center">Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <img class='moviePoster' ng-src="http://image.tmdb.org/t/p/original{{singleMovie[0].file_path}}">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

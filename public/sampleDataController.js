@@ -57,6 +57,26 @@ angular.module('netflix', [])
   }
 
 })
+.directive('filter', function() {
+  return {
+    templateUrl: './widgets/filter.html'
+  }
+})
+.directive('genrePickingView', function() {
+  return {
+    templateUrl: './views/genrepickingview.html'
+  }
+})
+.directive('moviesListingView', function() {
+  return {
+    templateUrl: './views/movieslistingview.html'
+  }
+})
+.directive('singleView', function() {
+  return {
+    templateUrl: './views/singleMovie.html'
+  }
+})
 
 
 

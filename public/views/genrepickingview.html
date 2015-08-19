@@ -1,0 +1,5 @@
+<!-- genre picker -->
+<div class="text-center" ng-show="genrePickerVisibility">
+  <button class="btn btn-success" ng-click="getListOfGenres()">Pick a genre</button>
+  <ul ng-repeat="genre in genres | filter:query" ng-click="pickGenre(genre)"><button class="btn btn-primary">{{genre.name}}</button></ul>
+</div>

@@ -11,58 +11,18 @@
   <link rel="stylesheet" href='./style.css'>
 </head>
 <body ng-controller='SampleDataController'>
-  <!-- filter widget -->
-  <div class="pull-right"><input type="text" class="form-control input-sm" ng-model="query" placeholder='Filter'></div>
 
-  <!-- genre picker -->
-  <div class="text-center" ng-show="genrePickerVisibility">
-    <button class="btn btn-success" ng-click="getListOfGenres()">Pick a genre</button>
-    <ul ng-repeat="genre in genres | filter:query" ng-click="pickGenre(genre)"><button class="btn btn-primary">{{genre.name}}</button></ul>
-  </div>
+  <!-- filter html at widgets/filter.html-->
+  <filter></filter>
 
-  <!-- movies listing-->
-  <div class="text-center" class="row" ng-show="movieListingVisibility"><strong>Movies</strong>
+  <!-- genrepicking html at views/genrepickingview.html-->
+  <genre-picking-view></genre-picking-view>
 
-    <button class="btn btn-success" ng-click="toggleGenres();toggleMovies()">Back to genres</button>
+  <!-- movieslisting html at views/movieslistingview.html-->
+  <movies-listing-view></movies-listing-view>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="text-center">Title</th>
-          <th class="text-center">Overview</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat='movie in movies | filter:query' ng-click="pickMovie(movie)">
-          <td class="text-center">{{movie.original_title}}</td>
-          <td>{{movie.overview}}</td>
-        </tr>
-      </tbody>
-    </table>
-
-  </div>
-
-    <!-- single movie listing-->
-  <div class="text-center" class="row" ng-show="singleMovieVisibility">
-
-    <button class="btn btn-success" ng-click="toggleMovies();toggleSingleMovie()">Back to movies</button>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="text-center">Image</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <img class='moviePoster' ng-src="http://image.tmdb.org/t/p/original{{singleMovie[0].file_path}}">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-  </div>
+  <!-- singleview html at views/singleMovie.html-->
+  <single-view></single-view>
 
   <br>
 

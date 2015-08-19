@@ -1,0 +1,20 @@
+<div class="text-center" class="row" ng-show="movieListingVisibility"><strong>Movies</strong>
+
+  <button class="btn btn-success" ng-click="toggleGenres();toggleMovies()">Back to genres</button>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-center">Title</th>
+        <th class="text-center">Overview</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='movie in movies | filter:query' ng-click="pickMovie(movie)">
+        <td class="text-center">{{movie.original_title}}</td>
+        <td>{{movie.overview}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
