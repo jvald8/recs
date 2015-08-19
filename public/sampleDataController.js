@@ -26,18 +26,29 @@ angular.module('netflix', [])
     })
   };
 
-  $scope.imageUri = theMovieDb.common.images_uri;
-  $scope.singleMovie;
+  $scope.movieImages;
+  $scope.movieTrailers;
   $scope.singleMovieVisibility = false;
   $scope.pickMovie = function(movie) {
     // just images
     theMovieDb.movies.getImages({'id':movie.id},
     function(data){
       console.log(data)
-      $scope.singleMovie = JSON.parse(data).backdrops;
+      $scope.movieImages = JSON.parse(data).backdrops;
       $scope.toggleMovies();
       $scope.toggleSingleMovie();
-      $scope.$apply()},
+      $scope.$apply()
+    },
+    function(error){
+      console.log(error)
+    })
+
+    theMovieDb.movies.getTrailers({'id':movie.id},
+    function(data){
+      console.log(data)
+      $scope.movieTrailers = JSON.parse(data).youtube;
+      //$scope.$apply()
+    },
     function(error){
       console.log(error)
     })
