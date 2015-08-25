@@ -16,6 +16,54 @@ db.open(function(err, db) {
   }
 });
 
+exports.addMovieRating = function(request, response) {
+  console.log(request.body)
+
+  var movie = {
+    movie: request.body.movie,
+    movieRating: request.body.movierating
+  }
+
+  //console.log(movieRating)
+
+  db.collection('movies', function(err, collection) {
+    if(err) {
+      console.log(err)
+    } else {
+      collection.insert(movie, {safe:true}, function(err, result) {
+        if(err) {
+          console.log('theres been an error adding the movie: ' + err);
+          response.send({'error':'theres been an error'});
+        } else {
+          response.setHeader('Access-Control-Allow-Origin', '*');
+          response.send(result);
+        }
+      });
+    }
+  });
+};
+
+exports.getRatedMovieIds = function(request, response) {
+
+  db.collection('movies', function(err, collection) {
+    if(err) {
+      console.log(err)
+    } else {
+      collection.find({}, {'movie.data.id':1, _id:0}).toArray(function(err, result) {
+        console.log(result)
+        if(err) {
+          console.log('theres been an error getting rated movies: ' + err);
+          response.send({'error':'theres been an error'});
+        } else {
+          response.setHeader('Access-Control-Allow-Origin', '*');
+          response.send(result);
+        }
+      });
+    }
+  });
+};
+
+
 var populateDb = function() {
   var movies = [
     {

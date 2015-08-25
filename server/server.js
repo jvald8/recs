@@ -1,14 +1,14 @@
 var express = require('express'),
 app = express(),
 bodyParser = require('body-parser'),
-questions = require('./endpoints.js');
+endpoints = require('./endpoints.js');
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-/*app.get('/questions', questions.getAllQuestions);
-app.post('/questions', questions.addQuestion);
-app.put('/questions/:id', questions.updateQuestion);
+app.post('/movieratings', endpoints.addMovieRating);
+app.get('/movieratingids', endpoints.getRatedMovieIds);
+/*app.put('/questions/:id', questions.updateQuestion);
 app.delete('/questions/:id', questions.deleteQuestion);
 
 app.get('/surveys', questions.getAllSurveys);

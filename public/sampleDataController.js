@@ -1,5 +1,5 @@
 angular.module('netflix', [])
-.controller('SampleDataController', function($scope) {
+.controller('SampleDataController', function($http, $scope) {
   // genre view
   $scope.genres;
   $scope.genrePickerVisibility = true;
@@ -18,6 +18,10 @@ angular.module('netflix', [])
     theMovieDb.genres.getMovies({'id':genre.id},
     function(data){
       $scope.movies = JSON.parse(data).results;
+      $scope.movies = $scope.movies.map(function(x) {
+        return {data:x, rating:'?'}
+      })
+      // filter for the rated movies here .filter, _.contains
       $scope.toggleGenres();
       $scope.toggleMovies();
       $scope.$apply()},
@@ -31,7 +35,7 @@ angular.module('netflix', [])
   $scope.singleMovieVisibility = false;
   $scope.pickMovie = function(movie) {
     // just images
-    theMovieDb.movies.getImages({'id':movie.id},
+    theMovieDb.movies.getImages({'id':movie.data.id},
     function(data){
       console.log(data)
       $scope.movieImages = JSON.parse(data).backdrops;
@@ -43,17 +47,51 @@ angular.module('netflix', [])
       console.log(error)
     })
 
-    theMovieDb.movies.getTrailers({'id':movie.id},
+    theMovieDb.movies.getTrailers({'id':movie.data.id},
     function(data){
-      console.log(data)
-      $scope.movieTrailers = JSON.parse(data).youtube;
-      //$scope.$apply()
+      var movieTrailerCallResults = JSON.parse(data).youtube;
+
+      $scope.movieTrailers = movieTrailerCallResults.filter(function(x) {
+        return x.type === "Trailer"
+      })
+
+      $scope.$apply();
     },
     function(error){
       console.log(error)
     })
     // other calls for movie info
   };
+
+  $scope.rating = function(movie, movieRating) {
+
+    var postReq = {
+      method: 'POST',
+      headers: {
+        'Access-Control-Allow-Origin':'*'
+      },
+      url: 'http://www.localhost:3001/movieratings',
+      data: {movie: movie, movierating: movieRating}
+    }
+
+    $http(postReq)
+    .then(function(data) {
+      console.log('success')
+    },
+    function(data) {
+      console.log('error')
+    })
+  }
+
+  $scope.ratedMovies = [];
+
+  $http.get('http://www.localhost:3001/movieratingids')
+  .then(function(data) {
+    data.data.forEach(function(x) {
+      $scope.ratedMovies.push(x.movie.data.id)
+    })
+  });
+
 
   $scope.toggleGenres = function() {
     $scope.genrePickerVisibility = !$scope.genrePickerVisibility;
