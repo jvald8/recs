@@ -1,6 +1,8 @@
 Workflow:
 1. User creates an account with password and email.
 
+2. filtering out rated movies works, but needs to do maybe a $scope.apply
+
 2. User begins rating movies.
 - User can pick a genre to rate from, check out specific details like poster, synopsis and a trailer if available.
 - User then gives it a rating, 1 - 5.

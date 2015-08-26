@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 
 app.post('/movieratings', endpoints.addMovieRating);
 app.get('/movieratingids', endpoints.getRatedMovieIds);
+app.get('/ratedmovies', endpoints.getRatedMovies);
 /*app.put('/questions/:id', questions.updateQuestion);
 app.delete('/questions/:id', questions.deleteQuestion);
 

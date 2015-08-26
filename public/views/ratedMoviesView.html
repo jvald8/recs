@@ -1,0 +1,28 @@
+<div class="text-center" class="row" ng-show="ratedMoviesVisibility"><strong>Rated Movies</strong>
+
+  <button class="btn btn-success" ng-click="toggleMovies();toggleRatedMovies()">Back to movies</button>
+
+  <table class="table">
+
+    <thead>
+      <tr>
+        <th class="text-center">Title</th>
+        <th class="text-center">Overview</th>
+        <th class="text-center">Rating</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat='movie in ratedMovies | filter:query'>
+        <td class="text-center"  ng-click="pickMovie(movie)">{{movie.movie.data.original_title}}</td>
+        <td ng-click="pickMovie(movie)">{{movie.movie.data.overview}}</td>
+        <td>
+          <!-- this should be a put to movie ratings-->
+          <input ng-model="movieRating" type='textbox' placeholder="{{movie.movieRating}}" ng-change="rating(movie, movieRating)"></input>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>

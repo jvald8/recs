@@ -1,5 +1,22 @@
 angular.module('netflix', [])
 .controller('SampleDataController', function($http, $scope) {
+
+  $scope.ratedMoviesIds = [];
+  $scope.ratedMovies = [];
+
+  $http.get('http://www.localhost:3001/movieratingids')
+  .then(function(data) {
+    data.data.forEach(function(x) {
+      $scope.ratedMoviesIds.push(x.movie.data.id)
+    })
+
+    $http.get('http://www.localhost:3001/ratedmovies')
+    .then(function(data) {
+      $scope.ratedMovies = data.data;
+    })
+  });
+
+
   // genre view
   $scope.genres;
   $scope.genrePickerVisibility = true;
@@ -18,8 +35,16 @@ angular.module('netflix', [])
     theMovieDb.genres.getMovies({'id':genre.id},
     function(data){
       $scope.movies = JSON.parse(data).results;
-      $scope.movies = $scope.movies.map(function(x) {
+
+      $scope.movies = $scope.movies
+      .map(function(x) {
         return {data:x, rating:'?'}
+      })
+      .filter(function(x) {
+        console.log(x.data.id)
+        if(!_.contains($scope.ratedMoviesIds, x.data.id)) {
+          return true;
+        }
       })
       // filter for the rated movies here .filter, _.contains
       $scope.toggleGenres();
@@ -37,7 +62,6 @@ angular.module('netflix', [])
     // just images
     theMovieDb.movies.getImages({'id':movie.data.id},
     function(data){
-      console.log(data)
       $scope.movieImages = JSON.parse(data).backdrops;
       $scope.toggleMovies();
       $scope.toggleSingleMovie();
@@ -76,22 +100,14 @@ angular.module('netflix', [])
 
     $http(postReq)
     .then(function(data) {
-      console.log('success')
+      console.log('successly made post')
     },
     function(data) {
-      console.log('error')
+      console.log('error on post')
     })
   }
 
-  $scope.ratedMovies = [];
-
-  $http.get('http://www.localhost:3001/movieratingids')
-  .then(function(data) {
-    data.data.forEach(function(x) {
-      $scope.ratedMovies.push(x.movie.data.id)
-    })
-  });
-
+  $scope.ratedMoviesVisibility = false;
 
   $scope.toggleGenres = function() {
     $scope.genrePickerVisibility = !$scope.genrePickerVisibility;
@@ -103,6 +119,10 @@ angular.module('netflix', [])
 
   $scope.toggleSingleMovie = function() {
     $scope.singleMovieVisibility = !$scope.singleMovieVisibility;
+  }
+
+  $scope.toggleRatedMovies = function() {
+    $scope.ratedMoviesVisibility = !$scope.ratedMoviesVisibility;
   }
 
 })
@@ -124,6 +144,11 @@ angular.module('netflix', [])
 .directive('singleView', function() {
   return {
     templateUrl: './views/singleMovie.html'
+  }
+})
+.directive('ratedMoviesView', function() {
+  return {
+    templateUrl: './views/ratedMoviesView.html'
   }
 })
 

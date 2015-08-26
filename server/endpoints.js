@@ -64,6 +64,26 @@ exports.getRatedMovieIds = function(request, response) {
 };
 
 
+exports.getRatedMovies = function(request, response) {
+
+  db.collection('movies', function(err, collection) {
+    if(err) {
+      console.log(err)
+    } else {
+      collection.find({}, {'movie':1,'movieRating':1, _id:0}).toArray(function(err, result) {
+        console.log(result)
+        if(err) {
+          console.log('theres been an error getting rated movies: ' + err);
+          response.send({'error':'theres been an error'});
+        } else {
+          response.setHeader('Access-Control-Allow-Origin', '*');
+          response.send(result);
+        }
+      });
+    }
+  });
+};
+
 var populateDb = function() {
   var movies = [
     {
